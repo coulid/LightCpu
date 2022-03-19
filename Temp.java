@@ -1,7 +1,7 @@
 import java.util.*;
-public class BasicOperations{
+public class Temp{
 	//function to add two very**100 numbers
-	//function call : new BasicOperations().add("str","str");
+	//function call : new Temp().add("str","str");
 	//return 	: String 
 	public String add(String x,String y){
 		//init
@@ -26,17 +26,21 @@ public class BasicOperations{
 		//check Point
 		//System.out.println(xl);
 		//System.out.println(yl);
-		
+
 		//init
-		String temp="";
 		String carry="0";	
+		String temp=new Temp().dcmAdder();//<<<<<	မှားနေသည်
+
+		result+=temp[0];
+		carry=temp[1];
+		temp="";
 		while(!xl.isEmpty()){
 			
 			if(yl.isEmpty() && !xl.isEmpty()){
-				temp =new BasicOperations().add(Integer.toString(Character.getNumericValue(xl.pop())),carry);
+				temp =new Temp().add(Integer.toString(Character.getNumericValue(xl.pop())),carry);
 			}
 			else if(!yl.isEmpty() && !carry.equals("0")){
-				temp =new BasicOperations().add(Integer.toString(Character.getNumericValue(xl.pop())+Character.getNumericValue(yl.pop())),carry);
+				temp =new Temp().add(Integer.toString(Character.getNumericValue(xl.pop())+Character.getNumericValue(yl.pop())),carry);
 			}
 			else{
 				temp =Integer.toString(Character.getNumericValue(xl.pop())+Character.getNumericValue(yl.pop()));
@@ -64,42 +68,48 @@ public class BasicOperations{
 		return new StringBuilder(result).reverse().toString();
 		}
 
-		public String multiply(String x,String y){
-			//swap
-			if(x.length()<y.length()){
-				String temp=x;
-				x=y;
-				y=temp;
 
-			}
-			//init
-			String result="";
-			String temp="0";
-			for(String a="0";!a.equals(y);a=new BasicOperations().add(a,"1")){
-				temp = new BasicOperations().add(x,temp);	
-			}
-			result = temp;
-			return result;
-
-		}
-		public String pow(String x,String y){
-			//init 
-			String result="";
-			String temp="1";
-			for(String a="0";!a.equals(y);a=new BasicOperations().add(a,"1")){
-				temp = new BasicOperations().multiply(x,temp);
-			}
-			result=temp;
-
-			return result;
-
-		}
-		
-		public static void main(String args[]){
-			String e=new BasicOperations().pow("314","314");
-			System.out.println(e);
+	public String[] dcmAdder(String x,String y){
+		//init
+		String result="";
+		//swap
+		if(x.length()<y.length()){
+			String temp=x;
+			x=y;
+			y=temp;
 		}
 
+		//init
+		String temp="";
+		String carry="0";
+		for(int a=x.length()-1,b=y.length()-1;a>=0;b=(a==b)?(b-1):(b),a--){
+			if(a!=b){
+				result+=x.charAt(a);
+			}
+			else{
+				if (!carry.equals("0")){
+					temp=new Temp().add(Integer.toString(Character.getNumericValue(x.charAt(a))+Character.getNumericValue(y.charAt(b))),carry);
+					result+=temp.charAt(temp.length()-1);
+				}
+				
+				if(temp.length()>1){
+					carry="";
+					for(int c=0;c<temp.length()-1;c++){
+						carry+=temp.charAt(c);
+					}
+				}
+				else{
+					carry="0";
+				}
+				temp="";
+			}
+		}
+		return new String[]{result,carry};
+	}
+
+	public static void main(String[]args){
+		String x=new Temp().dcmAdder("100","10000000");
+	}
 
 }
 
